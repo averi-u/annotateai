@@ -23,7 +23,6 @@
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
 
-![demo](https://raw.githubusercontent.com/neuml/annotateai/master/demo.png)
 
 `annotateai` automatically annotates papers using Large Language Models (LLMs). While LLMs can summarize papers, search papers and build generative text about papers, this project focuses on providing human readers with context as they read.
 
@@ -155,6 +154,8 @@ annotate("https://arxiv.org/pdf/2005.11401", progress=False)
 ```
 
 ## Docker Web Application
+
+![app](https://raw.githubusercontent.com/neuml/annotateai/master/images/app.gif)
 
 [neuml/annotateai](https://hub.docker.com/r/neuml/annotateai) is a web application available on Docker Hub.
 
