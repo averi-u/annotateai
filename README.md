@@ -153,3 +153,21 @@ The progress bar can be disabled as follows:
 ```python
 annotate("https://arxiv.org/pdf/2005.11401", progress=False)
 ```
+
+## Docker Web Application
+
+[neuml/annotateai](https://hub.docker.com/r/neuml/annotateai) is a web application available on Docker Hub.
+
+This can be run with the default settings as follows.
+
+```
+docker run -d --gpus=all -it -p 8501:8501 neuml/annotateai
+```
+
+The LLM can also be set via ENV parameters.
+
+```
+docker run -d --gpus=all -it -p 8501:8501 -e LLM=bartowski/Llama-3.2-1B-Instruct-GGUF/Llama-3.2-1B-Instruct-Q4_K_M.gguf neuml/annotateai
+```
+
+The code for this application can be found in the [app folder](https://github.com/neuml/annotateai/tree/master/app).
