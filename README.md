@@ -23,6 +23,7 @@
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
 
+![demo](https://raw.githubusercontent.com/neuml/annotateai/master/demo.png)
 
 `annotateai` automatically annotates papers using Large Language Models (LLMs). While LLMs can summarize papers, search papers and build generative text about papers, this project focuses on providing human readers with context as they read.
 
