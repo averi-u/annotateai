@@ -65,10 +65,14 @@ This project also works well with papers from [PubMed](https://pubmed.ncbi.nlm.n
 
 ### Setup
 
-The examples below use an AutoAWQ model, make sure to install that dependency first.
+Install the following.
 
-```
+```bash
+# Change autoawq[kernels] to "autoawq autoawq-kernels" if a flash-attn error is raised
 pip install annotateai autoawq[kernels]
+
+# macOS users should run this instead
+pip install annotateai llama-cpp-python
 ```
 
 The primary input parameter is the path to the LLM. This project is backed by [txtai](https://github.com/neuml/txtai) and it supports any [txtai-supported LLM](https://neuml.github.io/txtai/pipeline/text/llm/).
@@ -78,6 +82,11 @@ from annotateai import Annotate
 
 # This model works well with medical and scientific literature
 annotate = Annotate("NeuML/Llama-3.1_OpenScholar-8B-AWQ")
+
+# macOS users should run this instead
+annotate = Annotate(
+  "bartowski/Llama-3.1_OpenScholar-8B-GGUF/Llama-3.1_OpenScholar-8B-Q4_K_M.gguf"
+)
 ```
 
 ### Annotate paper "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks"
