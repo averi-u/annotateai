@@ -55,8 +55,6 @@ Python 3.9+ is supported. Using a Python [virtual environment](https://docs.pyth
 pip install git+https://github.com/neuml/annotateai
 ```
 
-Python 3.9+ is supported
-
 ## Examples
 
 `annotateai` can annotate any PDF but it works especially well for medical and scientific papers. The following shows a series of examples using papers from [arXiv](https://arxiv.org/).

@@ -8,9 +8,13 @@ Requires the following packages
 import os
 import platform
 
+from urllib.parse import urlparse
+
 import streamlit as st
 
 from streamlit_pdf_viewer import pdf_viewer
+
+from txtai import Embeddings
 
 from annotateai import Annotate
 
@@ -36,6 +40,9 @@ class Application:
             )
         )
 
+        # Embeddings database for search (lazy loaded)
+        self.embeddings = None
+
     def run(self):
         """
         Main rendering logic.
@@ -56,12 +63,16 @@ class Application:
         selected = st.session_state.get("selected")
 
         # Create URL input using selected example, if applicable
-        url = url.text_input("**URL or Local File Path**", value=examples.get(selected, ""))
+        url = url.text_input("**URL / Local File Path / Search**", value=examples.get(selected, ""))
 
         # Annotate the URL
         if url:
+            # Check if URL is valid, otherwise run an embeddings search
+            url = self.validate(url)
+
             # Build the annotation file for URL
             with st.spinner(f"Generating annotations for {url}"):
+                # Get the annotated output
                 output = self.build(url)
 
             # Get url file name
@@ -88,6 +99,35 @@ class Application:
 
         st.session_state.selected = st.session_state.example
         st.session_state.example = None
+        st.session_state.url = None
+
+    def validate(self, url):
+        """
+        Checks if input is a url or local file path. Otherwise, this runs a search and returns
+        the url for the top result.
+
+        Args:
+            url: input url, local file path or search query
+
+        Returns:
+            url
+        """
+
+        # Check if this is a URL or local file path
+        if urlparse(url).scheme in ("http", "https") or os.path.exists(url):
+            return url
+
+        # Lazy load of txtai-arxiv embeddings database
+        if not self.embeddings:
+            with st.spinner("Loading txtai-arxiv embeddings index for search"):
+                self.embeddings = Embeddings().load(provider="huggingface-hub", container="neuml/txtai-arxiv")
+
+        # Get top matching article
+        result = self.embeddings.search(url, 1)[0]
+        title = result["text"].split("\n")[0].replace("\n", " ")
+
+        st.toast(f"Ran search for {url} and using top match `{title}`")
+        return f"https://arxiv.org/pdf/{result['id']}"
 
     # pylint: disable=E0213
     @st.cache_data(show_spinner=False)
@@ -131,10 +171,12 @@ if __name__ == "__main__":
 
     st.markdown(
         """
-This application automatically annotates a paper using LLMs.
- 
-_Try PDFs from [arXiv](https://arxiv.org/), [PubMed](https://pubmed.ncbi.nlm.nih.gov/),
-[bioRxiv](https://www.biorxiv.org/) or [medRxiv](https://www.medrxiv.org/)!_
+This application automatically annotates papers using LLMs.
+
+`Annotate URLs or local file paths, if found. Otherwise, the top result from the txtai-arxiv embeddings database is returned for the input.`
+
+Try PDFs from [arXiv](https://arxiv.org/), [PubMed](https://pubmed.ncbi.nlm.nih.gov/),
+[bioRxiv](https://www.biorxiv.org/) or [medRxiv](https://www.medrxiv.org/)!
 """
     )
 
