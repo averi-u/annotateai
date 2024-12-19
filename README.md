@@ -180,3 +180,7 @@ docker run -d --gpus=all -it -p 8501:8501 -e LLM=bartowski/Llama-3.2-1B-Instruct
 ```
 
 The code for this application can be found in the [app folder](https://github.com/neuml/annotateai/tree/master/app).
+
+## Further Reading
+
+- [Introducing AnnotateAI](https://medium.com/neuml/introducing-annotateai-aecda8851ce5)
