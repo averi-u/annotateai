@@ -22,7 +22,7 @@ setup(
     packages=find_packages(where="src/python"),
     package_dir={"": "src/python"},
     keywords="pdf highlight llm ai",
-    python_requires=">=3.9",
+    python_requires=">=3.10",
     install_requires=["nltk>=3.5", "tqdm>=4.48.0", "txtai>=8.1.0", "txtmarker>=1.1.0"],
     classifiers=[
         "License :: OSI Approved :: Apache Software License",
