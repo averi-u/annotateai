@@ -19,6 +19,7 @@ from txtmarker.factory import Factory
 
 class Annotate(Pipeline):
     """
+    The main class
     Automatically annotates papers using LLMs.
     """
 
